@@ -6,6 +6,7 @@ struct Data{
 	int dia;
 	int mes;
 	int ano
+	
 };
 struct Conta {
 	int num_conta;
@@ -34,14 +35,16 @@ void main(void){
 	cliente_novo.pagamento.ano = 2025;
 	
 	imprimirConta(cliente);
+	imprimirConta(cliente_novo);
+	printf("O tamanho de bytes utilizados pela estrutura é: %d bytes.",sizeof( struct Conta));
 }
 
 void imprimirConta(struct Conta c){
 	printf("\n-------------Cliente----------");
-	printf("\nN�mero da conta: %d",c.num_conta);
-	printf("\nNome cliente: %s",c.nome);
-	printf("\nTipo da conta: %c",c.tipo_conta);
-	printf("\nSaldo da conta: %f",c.saldo);
+	printf("\nNúmero da conta: \t%d",c.num_conta);
+	printf("\nNome cliente: \t%s",c.nome);
+	printf("\nTipo da conta: \t%c",c.tipo_conta);
+	printf("\nSaldo da conta: \t%f",c.saldo);
 	printf("\n-------------------------------");
 	printf("\nData de abertura: ");
 	imprimirData(c.abertura);
@@ -52,4 +55,4 @@ void imprimirConta(struct Conta c){
 
 void imprimirData(struct Data d){
 	printf("%d/%d/%d",d.dia,d.mes,d.ano);
-}
+};
