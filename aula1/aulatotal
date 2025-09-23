@@ -1,0 +1,204 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <locale.h>
+
+void imprimirMultiplosDe5(int n);
+int soma100(int n,int soma);
+int somaPares(int n, int soma);
+int somaSucess(int n, int mult,int soma);
+void imprimirMetade(int n);
+void tabuada(int n, int m);
+int somaMultiplos(int n,int soma);
+bool verificaPrimo(int n,int i, bool ehPrimo);
+void imprimirPA(int inicio, int razao, int limite);
+int maiorIns(int quantidade);
+int maiorInserido(int quantidade, int maior);
+int rec1(int i, int soma);
+int rec2(int i, int soma);
+
+void somaParesProdutoImpares(int n, int *somaPar, int *produtoImpar);
+int raiz(int n, int impar, int r);
+
+void main(void){
+	setlocale(LC_ALL,"Portuguese");
+	imprimirMultiplosDe5(5);
+	printf("\n\nO valor da soma dos 100 primeiros números é %d.",soma100(1,0));
+	printf("\nO valor da soma dos pares entre 25 e 200 é %d.",somaPares(25,0));
+	int num = 4, mul = 8;
+
+	printf("\nO valor da multiplicação de %d por %d é:",num,mul);
+	printf(" %d\n", somaSucess(num, mul, 0));	
+	imprimirMetade(10);
+
+	int t;
+	printf("\nInsira o valor da tabuada que deseja imprimir: ");
+	scanf("%d",&t);
+	tabuada(t,10);
+	
+	printf("\nO valor da soma dos multiplos de 3 e 5 de 1 a 500 é: %d\n",	somaMultiplos(1,0));
+	num = 1151;
+	printf("\n\%d é numero primo? %s.",num,verificaPrimo(num, 2, true)?"true":"false");
+	
+
+	printf("\n");
+	imprimirPA(0, 5, 20);
+
+	int qtd;
+	printf("\nInsira a quantidade de números inteiros que deseja inserir: ");
+	scanf("%d",&qtd);
+	printf("\nO maior valor inserido foi %d.\n", maiorIns(qtd));
+	
+	int somaPares = 0, produtoImpares = 1;	
+	somaParesProdutoImpares(0, &somaPares, &produtoImpares);
+    printf("\nSoma dos pares: %d", somaPares);
+    printf("\nProduto dos ímpares: %d", produtoImpares);
+		
+	printf("\nDigite um número para calcular a raiz quadrada: ");
+    scanf("%d", &num);	
+    printf("\nO valor da raiz quadrada aproximadamente é %d", raiz(num,1,0));
+    
+}
+/*
+1. Escreva um programa que imprima na tela
+ os números de 1 a 500 que são múltiplos de 5.
+*/
+void imprimirMultiplosDe5(int n){
+	printf("%d, ",n);
+	if(n < 500) imprimirMultiplosDe5(n + 5);	
+}
+/*
+2. Escreva um programa que some os números de 1 a 100.
+*/
+int soma100(int n,int soma){
+	if(n <= 100) soma = soma100(n + 1,soma + n);
+	return soma;
+}
+/*
+3. Escreva um programa que calcule a soma
+	 dos números pares entre 25 e 200.
+*/
+int somaPares(int n, int soma){
+	if(n % 2 != 0) n++;
+	if(n < 200) soma = somaPares(n + 2, soma + n);
+	return soma;
+}
+/*
+4. Faça um programa que calcule a multiplicação de dois
+   números através de somas sucessivas.
+   4 * 5 --> 4 + 4 + 4 + 4 + 4 = 20
+*/
+int somaSucess(int n, int mult,int soma){
+	if(mult > 0) soma = somaSucess(n,mult-1,soma+n);
+	return soma;	
+}
+/*
+5. 	Escreva um programa que possui entrada 10 
+	números e imprimir a metade de cada um deles.
+*/
+void imprimirMetade(int n){
+	float num;
+	printf("\nInsira um número: ");
+	scanf("%f",&num);
+	printf("A metade do número inserido é: %.2f",(num/2));
+	if(n > 1) imprimirMetade(n-1);	
+}
+/*
+6. 	Crie um programa que o usuário diga 
+	qual a tabuada deseja imprimir.
+	2 X 1 = 2
+	2 X 2 = 4
+	2 X 3 = 6
+*/
+void tabuada(int n,int m){	
+	if(m > 1) tabuada(n , m - 1);
+	printf(" %d X %d\t=  %d\n",n,m,(n*m));	
+}
+/*
+7. 	Escreva um programa que some todos números de
+	1 a 500 que são múltiplos de 5 ou de 3.
+*/
+int somaMultiplos(int n,int soma){
+	if((n % 3 == 0)||(n % 5 == 0)) soma = soma + n;
+	if(n < 500) soma = somaMultiplos(n + 1,soma);
+	return soma;
+}
+
+/*
+8 e 9.  Escreva um programa que dado um número
+		 verifique é número primo.
+*/
+bool verificaPrimo(int n,int i, bool ehPrimo){
+	printf("%d, ",i);
+	if(n % i == 0) return false;
+	if(i < n/2) ehPrimo = verificaPrimo(n,i + 1,ehPrimo);
+	return ehPrimo;
+}
+/*
+10. Faça um programa que imprima a progressão aritmética de dois números.
+	As entradas são: razão, primeiro elemento e o limite superior.
+		Ex: limite=20/ razão=5 -> 0 5 10 15 20
+*/
+void imprimirPA(int inicio, int razao, int limite){
+	if(inicio <= limite){
+		printf("%d, ",inicio);
+		imprimirPA(inicio + razao,razao,limite);
+	}
+}
+/*
+11.	Escreva um programa onde o usuário diz quantos números quer digitar,
+ 	em seguida solicite a ele que digite todos os números e diga qual 
+	o maior número daqueles digitados.
+*/
+int maiorIns(int quantidade){	//função recursiva indireta
+	return maiorInserido(quantidade,-999999);
+}
+
+int maiorInserido(int quantidade, int maior){ //função recursiva direta
+	int num;
+	printf("\nInsira o valor do %dº número ",quantidade);
+	scanf("%d",&num);
+	if(maior < num) maior = num;
+	if(quantidade > 1)maior = maiorInserido(quantidade - 1,maior);
+	return maior;
+}
+
+int rec1(int i, int soma){					// recursividade indireta Exemplo - função 1/2
+	i = i + 1;
+	soma = rec2(i, soma);
+	return soma;
+}
+
+int rec2(int i, int soma){					// recursividade indireta Exemplo - função 2/2
+	if(i < 20)soma = rec1(i, soma + i);
+	return soma;
+}
+
+/*
+12. Criar um programa que recebe vários números e imprima 
+	o produto dos ímpares e a soma dos pares.
+*/
+void somaParesProdutoImpares(int n, int *somaPar, int *produtoImpar){
+	printf("\nInsira um número (0 para encerrar o programa): ");
+	scanf("%d",&n);
+	if(n == 0) return;
+	if(n % 2 == 0) *somaPar = *somaPar + n;
+	else *produtoImpar = *produtoImpar * n;
+	somaParesProdutoImpares(n, somaPar, produtoImpar); 
+}
+/*
+13. Uma das maneiras de se conseguir a raiz quadrada de um número é
+	subtrair do número os ímpares consecutivos a partir de 1, até que
+	o resultado da subtração seja menor ou igual a zero.
+
+	O número de vezes que se conseguir fazer a subtração é a 
+	raiz quadrada exata (resultado 0) ou aproximada do número (resultado negativo).
+
+	Ex.: Raiz de 16 16-1 = 15-3 = 12-5 = 7-7 = 0
+
+	Faça um programa que calcule a raiz quadrada de um número usando este método.
+*/
+int raiz(int n, int impar, int r){
+	if(n >= impar) r = raiz(n - impar, impar + 2,r + 1);
+	return r;
+}
